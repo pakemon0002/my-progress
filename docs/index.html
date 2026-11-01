@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090d14">
+  <title>MY PROGRESS</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark"><span></span><span></span><span></span></div>
+        <div><div class="brand-name">MY<span>PROGRESS</span></div><div class="brand-sub">PERSONAL PERFORMANCE SYSTEM</div></div>
+      </div>
+      <button class="avatar" id="profileBtn" aria-label="Профиль">MP</button>
+    </header>
+
+    <main>
+      <section class="page active" id="page-home">
+        <div class="welcome-row">
+          <div><div class="eyebrow" id="todayLabel">ТВОЙ ЛИЧНЫЙ ПРОГРЕСС</div><h1>Привет, Максим <span class="wave">👋</span></h1><p class="muted">Продолжай двигаться к своим целям</p></div>
+          <div class="live-pill"><i></i> LIVE</div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-top"><span class="eyebrow">ТВОЙ ПРОГРЕСС</span><span class="period" id="monthLabel">НОЯБРЬ 2026</span></div>
+          <div class="hero-number"><span id="overallPercent">0</span><small>%</small></div>
+          <div class="progress-track"><div class="progress-fill" id="overallBar"></div></div>
+          <div class="hero-bottom"><span id="completedGoals">0 из 0 целей выполнено</span><span class="hero-arrow">↗</span></div>
+          <div class="hero-orb orb-one"></div><div class="hero-orb orb-two"></div>
+        </div>
+
+        <div class="section-head"><div><div class="eyebrow">КЛЮЧЕВЫЕ ПОКАЗАТЕЛИ</div><h2>Этот месяц</h2></div><button class="text-btn" data-go="analytics">Подробнее ↗</button></div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-icon cyan">₴</div><div class="stat-label">Доход</div><div class="stat-value" id="statIncome">0 <small>₴</small></div><div class="stat-foot">за текущий месяц</div></article>
+          <article class="stat-card"><div class="stat-icon violet">↗</div><div class="stat-label">Лиды</div><div class="stat-value" id="statLeads">0</div><div class="stat-foot">всего привлечено</div></article>
+          <article class="stat-card"><div class="stat-icon blue">◎</div><div class="stat-label">Команда</div><div class="stat-value" id="statMembers">0</div><div class="stat-foot">новых участников</div></article>
+          <article class="stat-card"><div class="stat-icon orange">✳</div><div class="stat-label">Креативы</div><div class="stat-value" id="statCreatives">0</div><div class="stat-foot">опубликовано</div></article>
+        </div>
+
+        <div class="section-head"><div><div class="eyebrow">ФОКУС</div><h2>Цели месяца</h2></div><button class="text-btn" data-go="goals">Все цели ↗</button></div>
+        <div class="goal-preview" id="goalPreview"></div>
+
+        <div class="section-head"><div><div class="eyebrow">СЕГОДНЯ</div><h2>План действий</h2></div><button class="text-btn" data-go="tasks">Все задачи ↗</button></div>
+        <div class="task-preview" id="taskPreview"></div>
+        <button class="primary-btn wide" id="quickReport"><span>＋</span> Записать результат за день</button>
+      </section>
+
+      <section class="page" id="page-goals">
+        <div class="page-title"><div class="eyebrow">НАПРАВЛЕНИЕ И РЕЗУЛЬТАТ</div><h1>Мои цели<span class="accent">.</span></h1><p class="muted">Фиксируй конкретные результаты и отслеживай движение.</p></div>
+        <div class="mini-summary"><div><span class="eyebrow">АКТИВНЫХ ЦЕЛЕЙ</span><strong id="goalCount">0</strong></div><div><span class="eyebrow">СРЕДНИЙ ПРОГРЕСС</span><strong id="goalAverage">0%</strong></div></div>
+        <div id="goalsList" class="stack-list"></div>
+        <button class="primary-btn wide" id="addGoalBtn">＋ Добавить цель</button>
+      </section>
+
+      <section class="page" id="page-tasks">
+        <div class="page-title"><div class="eyebrow">ДИСЦИПЛИНА СОЗДАЁТ РЕЗУЛЬТАТ</div><h1>Задачи<span class="accent">.</span></h1><p class="muted">Небольшие действия каждый день — большой результат на дистанции.</p></div>
+        <div class="task-date-card"><div><span class="eyebrow">ПЛАН НА СЕГОДНЯ</span><strong id="taskDate">Сегодня</strong></div><div class="task-counter"><b id="taskDoneCount">0</b><span>/</span><span id="taskTotalCount">0</span></div></div>
+        <div class="day-progress"><div id="taskProgressBar"></div></div>
+        <div id="tasksList" class="stack-list"></div>
+        <button class="primary-btn wide" id="addTaskBtn">＋ Добавить задачу</button>
+      </section>
+
+      <section class="page" id="page-stats">
+        <div class="page-title"><div class="eyebrow">ЦИФРЫ БЕЗ ИЛЛЮЗИЙ</div><h1>Статистика<span class="accent">.</span></h1><p class="muted">Смотри на динамику, находи закономерности, улучшай результат.</p></div>
+        <div class="segmented"><button class="selected" data-range="month">Месяц</button><button data-range="week">7 дней</button></div>
+        <div class="chart-card"><div class="chart-heading"><div><span class="eyebrow">ДИНАМИКА ДОХОДА</span><div class="chart-total" id="chartIncome">0 ₴</div></div><span class="chart-tag">UAH</span></div><div class="chart" id="incomeChart"></div><div class="chart-labels" id="chartLabels"></div></div>
+        <div class="section-head"><div><div class="eyebrow">РАБОЧИЕ ПОКАЗАТЕЛИ</div><h2>Результаты</h2></div></div>
+        <div class="metric-list" id="metricList"></div>
+        <div class="section-head"><div><div class="eyebrow">ФИНАНСОВАЯ СВОДКА</div><h2>Деньги</h2></div><button class="text-btn" data-go="money">Открыть ↗</button></div>
+        <div class="money-summary"><div><span>Доходы</span><strong id="moneyIncome">0 ₴</strong></div><div><span>Расходы</span><strong id="moneyExpense">0 ₴</strong></div><div><span>Баланс</span><strong id="moneyBalance">0 ₴</strong></div></div>
+      </section>
+
+      <section class="page" id="page-money">
+        <div class="page-title"><div class="eyebrow">КОНТРОЛЬ ДЕНЕЖНОГО ПОТОКА</div><h1>Финансы<span class="accent">.</span></h1><p class="muted">Отделяй доходы от расходов и понимай реальную картину.</p></div>
+        <div class="finance-hero"><span class="eyebrow">БАЛАНС ЗА МЕСЯЦ</span><strong id="financeBalance">0 ₴</strong><div class="finance-pair"><div><span>↑ Доходы</span><b id="financeIncome">0 ₴</b></div><div><span>↓ Расходы</span><b id="financeExpense">0 ₴</b></div></div></div>
+        <div class="section-head"><div><div class="eyebrow">ИСТОРИЯ ОПЕРАЦИЙ</div><h2>Транзакции</h2></div></div>
+        <div id="transactionsList" class="stack-list"></div>
+        <div class="dual-actions"><button class="secondary-btn" id="addIncomeBtn">＋ Доход</button><button class="secondary-btn" id="addExpenseBtn">－ Расход</button></div>
+      </section>
+
+      <section class="page" id="page-report">
+        <div class="page-title"><div class="eyebrow">ЗАКРЕПИ РЕЗУЛЬТАТЫ</div><h1>Отчёт дня<span class="accent">.</span></h1><p class="muted">Заполняй один раз в день. Позже сравнивай дни и недели.</p></div>
+        <form id="reportForm" class="form-card">
+          <label>Доход за день, ₴<input name="income" type="number" min="0" step="0.01" placeholder="Например, 500"></label>
+          <div class="form-row"><label>Лиды<input name="leads" type="number" min="0" step="1" placeholder="0"></label><label>Новые участники<input name="members" type="number" min="0" step="1" placeholder="0"></label></div>
+          <div class="form-row"><label>Креативы<input name="creatives" type="number" min="0" step="1" placeholder="0"></label><label>Учёба<select name="study"><option value="0">Не выполнена</option><option value="1">Выполнена</option></select></label></div>
+          <label>Заметка<textarea name="note" rows="3" placeholder="Что получилось? Что нужно улучшить?"></textarea></label>
+          <button class="primary-btn wide" type="submit">Сохранить отчёт</button>
+        </form>
+        <div class="section-head"><div><div class="eyebrow">ПОСЛЕДНИЕ ЗАПИСИ</div><h2>История отчётов</h2></div></div>
+        <div id="reportsList" class="stack-list"></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-page="home"><span>⌂</span><small>Главная</small></button>
+      <button class="nav-item" data-page="goals"><span>◎</span><small>Цели</small></button>
+      <button class="nav-item nav-add" data-page="report"><span>＋</span><small>Отчёт</small></button>
+      <button class="nav-item" data-page="stats"><span>▥</span><small>Статистика</small></button>
+      <button class="nav-item" data-page="tasks"><span>☷</span><small>Задачи</small></button>
+    </nav>
+  </div>
+
+  <div class="modal-backdrop" id="modal">
+    <div class="modal">
+      <div class="modal-head"><div><span class="eyebrow">MY PROGRESS</span><h3 id="modalTitle">Добавить</h3></div><button class="close-btn" id="closeModal">×</button></div>
+      <form id="modalForm"><div id="modalFields"></div><button class="primary-btn wide" type="submit">Сохранить</button></form>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="./app.js"></script>
+</body>
+</html>
